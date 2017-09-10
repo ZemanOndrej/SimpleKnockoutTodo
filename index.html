@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Todo</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <script type="text/javascript" src="http://knockoutjs.com/downloads/knockout-3.2.0.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">        
+</head>
+
+<body>
+    <h1>Heading 1231231312</h1>
+
+    <div class="liveExample">
+
+        <div>You've clicked <span data-bind='text: numberOfClicks'>&nbsp;</span> times</div>
+
+        <button data-bind='click: registerClick, disable: hasClickedTooManyTimes'>Click me</button>
+
+        <div data-bind='visible: hasClickedTooManyTimes'>
+            That's too many clicks! Please stop before you wear out your fingers.
+            <button data-bind='click: resetClicks'>Reset clicks</button>
+        </div>
+
+    </div>
+    <div data-bind="visible: hasClickedTooManyTimes">
+        Kappasdadadadadadadadadada
+    </div>
+    
+
+    <script type="text/javascript" src="./js/scripts.min.js"></script>
+</body>
+
+</html>
