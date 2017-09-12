@@ -9,12 +9,14 @@
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
 </head>
+
 <body>
     <div id="todo">
         <form class="todoForm" data-bind="submit:addItem">
             <textarea type="text" class="todoTextarea" data-bind='value:todoToAdd, valueUpdate: "afterkeydown"'></textarea>
             <button type="submit" data-bind="enable: todoToAdd().length > 0">Add</button>
         </form>
+        <span class="emptyTodoListMessage" data-bind="if: items().length===0">No Todos to do. Add some :)</span>
         <div data-bind="foreach: items" id="todoList">
             <div class="todoSec" data-bind="css:{completedSec :$data.isCompleted()}">
 
@@ -26,8 +28,10 @@
                 </div>
 
                 <div class="btnSection">
-                    <a class="options" data-bind="click: $parent.complete">Completed</a>
-                    <a class="options" data-bind="click: $parent.edit, text: $data.editText">Edit</a>
+                    <a class="options" data-bind="click: $parent.complete, visible: !$data.isEditing()">Completed</a>
+                    <a class="options" data-bind="click: $parent.edit">
+                        <span data-bind="text: $data.isEditing() ? 'Update' : 'Edit'"></span>
+                    </a>
                     <a class="options" data-bind="click: $parent.removeItem">Delete</a>
                 </div>
             </div>

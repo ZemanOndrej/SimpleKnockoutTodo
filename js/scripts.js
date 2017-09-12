@@ -7,7 +7,6 @@ class Todo {
         this.isCompleted = ko.observable(isCompleted);
         this.text = ko.observable(text);
         this.index = ko.observable(index);
-        this.editText = ko.observable('Edit');
     }
 }
 
@@ -17,7 +16,7 @@ class TodoModel {
         const todos = JSON.parse(localStorage.getItem('SimpleTodoList'));
         if (todos) {
             Array.from(todos).forEach((t) => {
-                this.items.push(new Todo(t.text, t.index, t.isEditing, t.isCompleted));
+                this.items.push(new Todo(t.text, t.index, false, t.isCompleted));
             });
         }
 
@@ -39,10 +38,7 @@ class TodoModel {
         };
         this.edit = (e) => {
             if (!e.isCompleted()) {
-                if (e.editText() === 'Edit') {
-                    e.editText('Update');
-                } else {
-                    e.editText('Edit');
+                if (e.isEditing()) {
                     this.saveItems();
                 }
                 e.isEditing(!e.isEditing());

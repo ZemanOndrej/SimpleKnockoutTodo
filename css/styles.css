@@ -59,3 +59,8 @@ select{width: 200px}
     margin-top: 10px;
     transform: translate(-15%,0);
 }
+.emptyTodoListMessage{
+    font:1.8em Futura, ‘Century Gothic’, AppleGothic, sans-serif;
+    margin:  5vh 0 0 42vw;
+    
+}
