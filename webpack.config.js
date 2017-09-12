@@ -1,32 +1,30 @@
-let debug = process.env.NODE_ENV !== "production";
-let webpack = require('webpack');
-let path = require("path");
+const debug = process.env.NODE_ENV !== 'production';
+const webpack = require('webpack');
+const path = require('path');
 
+const APP_DIR = path.join(__dirname, '/');
 
-
-let APP_DIR = path.join(__dirname, "/");
-
-let config = {
+const config = {
 
     devServer: {
-        publicPath: "/",
+        publicPath: '/',
         historyApiFallback: {
             index: 'index.html',
-        }
+        },
     },
     context: APP_DIR,
-    devtool: debug ? "inline-sourcemap" : null,
-    entry: "./js/scripts.js",
+    devtool: debug ? 'inline-sourcemap' : null,
+    entry: './js/scripts.js',
     watch: true,
     output: {
-        publicPath: "/",
-        path: APP_DIR + "/js",
-        filename: "scripts.min.js"
+        publicPath: '/',
+        path: `${APP_DIR}/js`,
+        filename: 'scripts.min.js',
     },
     plugins: debug ? [] : [
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false}),
+        new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
     ],
     module: {
         loaders: [
@@ -35,12 +33,12 @@ let config = {
                 exclude: /node_modules/,
                 loader: 'babel-loader',
                 query: {
-                    presets: [ 'es2015']
-                }
-            }
-        ]
-    }
+                    presets: ['es2015'],
+                },
+            },
+        ],
+    },
 };
 
 
-module.exports= config;
+module.exports = config;

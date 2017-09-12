@@ -1,19 +1,62 @@
-/*jshint esversion: 6 */
-import * as ko from "knockout";
-class ClickCounterViewModel {
-    constructor(options) {
-        this.numberOfClicks = ko.observable(0);
+/* jshint esversion: 6 */
+import * as ko from 'knockout';
 
-        this.registerClick = () => {
-            this.numberOfClicks(this.numberOfClicks() + 1);
-        };
-
-        this.resetClicks = () => {
-            this.numberOfClicks(0);
-        };
-
-        this.hasClickedTooManyTimes = ko.computed(() => this.numberOfClicks() >= 3, this);
+class Todo {
+    constructor(text, index, isEditing = false, isCompleted = false) {
+        this.isEditing = ko.observable(isEditing);
+        this.isCompleted = ko.observable(isCompleted);
+        this.text = ko.observable(text);
+        this.index = ko.observable(index);
+        this.editText = ko.observable('Edit');
     }
 }
 
-ko.applyBindings(new ClickCounterViewModel());
+class TodoModel {
+    constructor() {
+        this.items = ko.observableArray([]);
+        const todos = JSON.parse(localStorage.getItem('SimpleTodoList'));
+        if (todos) {
+            Array.from(todos).forEach((t) => {
+                this.items.push(new Todo(t.text, t.index, t.isEditing, t.isCompleted));
+            });
+        }
+
+        this.todoToAdd = ko.observable('');
+        this.selectedItems = ko.observableArray([]);
+        this.itemEditing = ko.observable({});
+
+        this.addItem = () => {
+            const newTast = new Todo(this.todoToAdd(), this.items.length);
+            if (this.todoToAdd() != null) {
+                this.items.unshift(newTast);
+                this.saveItems();
+            }
+            this.todoToAdd('');
+        };
+        this.removeItem = (e) => {
+            this.items.remove(e);
+            this.saveItems();
+        };
+        this.edit = (e) => {
+            if (!e.isCompleted()) {
+                if (e.editText() === 'Edit') {
+                    e.editText('Update');
+                } else {
+                    e.editText('Edit');
+                    this.saveItems();
+                }
+                e.isEditing(!e.isEditing());
+            }
+        };
+        this.complete = (e) => {
+            e.isEditing(false);
+            e.isCompleted(!e.isCompleted());
+            this.saveItems();
+        };
+        this.saveItems = () => {
+            localStorage.setItem('SimpleTodoList', ko.toJSON(this.items()));
+        };
+    }
+}
+
+ko.applyBindings(new TodoModel(), document.getElementById('todo'));

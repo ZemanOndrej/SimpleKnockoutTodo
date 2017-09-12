@@ -6,30 +6,34 @@
     <title>Todo</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <script type="text/javascript" src="http://knockoutjs.com/downloads/knockout-3.2.0.js"></script> -->
-    <link rel="stylesheet" type="text/css" href="./css/styles.css">        
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
 </head>
-
 <body>
-    <h1>Heading 1231231312</h1>
+    <div id="todo">
+        <form class="todoForm" data-bind="submit:addItem">
+            <textarea type="text" class="todoTextarea" data-bind='value:todoToAdd, valueUpdate: "afterkeydown"'></textarea>
+            <button type="submit" data-bind="enable: todoToAdd().length > 0">Add</button>
+        </form>
+        <div data-bind="foreach: items" id="todoList">
+            <div class="todoSec" data-bind="css:{completedSec :$data.isCompleted()}">
 
-    <div class="liveExample">
+                <div class="todoInfo">
+                    <textarea class="todoTextarea" type="text" data-bind='visible: $data.isEditing(), value: $data.text, valueUpdate: "afterkeydown"'>
+                    </textarea>
+                    <p class="text" data-bind="text: $data.text, visible: !$data.isEditing(), css:{completed :$data.isCompleted()}">
+                    </p>
+                </div>
 
-        <div>You've clicked <span data-bind='text: numberOfClicks'>&nbsp;</span> times</div>
+                <div class="btnSection">
+                    <a class="options" data-bind="click: $parent.complete">Completed</a>
+                    <a class="options" data-bind="click: $parent.edit, text: $data.editText">Edit</a>
+                    <a class="options" data-bind="click: $parent.removeItem">Delete</a>
+                </div>
+            </div>
 
-        <button data-bind='click: registerClick, disable: hasClickedTooManyTimes'>Click me</button>
-
-        <div data-bind='visible: hasClickedTooManyTimes'>
-            That's too many clicks! Please stop before you wear out your fingers.
-            <button data-bind='click: resetClicks'>Reset clicks</button>
         </div>
-
     </div>
-    <div data-bind="visible: hasClickedTooManyTimes">
-        Kappasdadadadadadadadadada
-    </div>
-    
-
     <script type="text/javascript" src="./js/scripts.min.js"></script>
 </body>
 
